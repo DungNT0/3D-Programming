@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <canvas id="myCanvas" width="600" height="480" 
+        style="border:1px solid grey; 
+            padding: 0;
+            margin: auto;
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: black;"></canvas>
+
+    <script>
+        //Step1: Get the canvas element
+        var canvas = document.getElementById("myCanvas");
+        //S2: Create a drawing object - 2D
+        var ctx = canvas.getContext("2d");
+        //S3: Draw on the canvas
+        //Draw a line
+        ctx.fillStyle = "#5EFFFB";
+        ctx.font = "20px Georgia";
+		ctx.fillText("Nguyen Tuan Dung", 215, 450);
+
+        ctx.beginPath();
+        ctx.arc(300, 200, 160, 0, 2 * Math.PI);
+        
+        ctx.moveTo(152, 140);
+        ctx.lineTo(255, 170);
+        
+        ctx.moveTo(330, 170);
+        ctx.lineTo(448, 140);
+        
+        ctx.moveTo(225, 270);
+        ctx.lineTo(380, 270);
+        
+        ctx.stroke();
+		ctx.strokeStyle = "#5EFFFB";
+		ctx.stroke();
+    </script>
+</body>
+
+</html>
