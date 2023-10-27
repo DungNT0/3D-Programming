@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <canvas id="myCanvas" width="1280" height="720"></canvas>
+
+    <script>
+        function main() {
+            var canvas = document.getElementById("myCanvas");
+            var gl = canvas.getContext('webgl');
+
+            if (gl == null) {
+                alert("Unable to initiate WebGL. Your browser or machine may not support it.");
+                return;
+            }
+
+            var vertices = [-0.5, 0.5, 0.0, 
+                            -0.5, -0.5, 0.0,
+                            0.5, -0.5, 0.0];
+            var indices = [1, 2, 3];
+
+            var vertex_buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+            var index_buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+
+            var vertex_shader_source = "attribute vec3 aVertexPosition;" + "void main() {" + 
+            "gl_Position = vec4(aVertexPosition, 1.0);}";
+            
+            var vertex_shader = gl.createShader(gl.VERTEX_SHADER);
+            gl.shaderSource(vertex_shader, vertex_shader_source);
+            gl.compileShader(vertex_shader);
+            if(!gl.getShaderParameter(vertex_shader, gl.COMPILE_STATUS)) {
+                alert('An error occurred while compiling the shaders: ' + gl.getShaderInfoLog(vertex_shader));
+                gl.deleteShader(vertex_shader);
+                return;
+            }
+
+            var fragment_shader_source = "void main() {" + 
+            "gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);}";
+
+            var fragment_shader = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(fragment_shader, fragment_shader_source);
+            gl.compileShader(fragment_shader);
+            if(!gl.getShaderParameter(fragment_shader, gl.COMPILE_STATUS)) {
+                alert('An error occurred while compiling the shaders: ' + gl.getShaderInfoLog(fragment_shader));
+                gl.deleteShader(fragment_shader);
+                return;
+            }
+
+            var shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertex_shader);
+            gl.attachShader(shaderProgram, fragment_shader);
+            gl.linkProgram(shaderProgram);
+            if(!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                alert('Unable to initiate shader program: ' + gl.getProgramInfoLog(shaderProgram));
+                return;
+            }
+
+            gl.useProgram(shaderProgram);
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
+
+            var aVertexPosition_Loc = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
+            gl.enableVertexAttribArray(aVertexPosition_Loc);
+            gl.vertexAttribPointer(aVertexPosition_Loc, 3, gl.FLOAT, false, 0, 0);
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+        }
+        window.onload = main;
+    </script>
+</body>
+
+</html>
