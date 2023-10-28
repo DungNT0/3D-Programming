@@ -17,8 +17,8 @@
             var vertices = [
                             //position              color
                             -0.5, 0.5, 0.0,         1.0, 0.0, 0.0,
-                            -0.5, 0.0, 0.0,        0.0, 1.0, 0.0,
-                            -0.5, -0.5, 0.0,         0.0, 0.0, 1.0];
+                            -0.5, -0.5, 0.0,        0.0, 1.0, 0.0,
+                            0.5, -0.5, 0.0,         0.0, 0.0, 1.0];
 
             var indices = [0, 1, 2];
 
@@ -44,7 +44,7 @@
             }
 
             var fragment_shader_source = "precision mediump float;" + "varying vec3 vVertexColor;" 
-            + "void main() {" + "gl_FragColor = vec4(vVertexColor, 0.6);}";
+            + "void main() {" + "gl_FragColor = vec4(vVertexColor, 1.0);}";
 
             var fragment_shader = gl.createShader(gl.FRAGMENT_SHADER);
             gl.shaderSource(fragment_shader, fragment_shader_source);
@@ -70,11 +70,11 @@
 
             var aVertexPosition_Loc = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
             gl.enableVertexAttribArray(aVertexPosition_Loc);
-            gl.vertexAttribPointer(aVertexPosition_Loc, 3, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer(aVertexPosition_Loc, 3, gl.FLOAT, false, 24, 0);
 
             var aVertexColor_Loc = gl.getAttribLocation(shaderProgram, 'aVertexColor');
             gl.enableVertexAttribArray(aVertexColor_Loc);
-            gl.vertexAttribPointer(aVertexColor_Loc, 3, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer(aVertexColor_Loc, 3, gl.FLOAT, false, 24, 12);
 
             // var vVertexColor_Loc = gl.getAttribLocation(shaderProgram, 'vVertexColor');
             // gl.enableVertexAttribArray(vVertexColor_Loc);
